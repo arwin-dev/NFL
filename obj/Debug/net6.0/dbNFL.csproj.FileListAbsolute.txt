@@ -1,0 +1,17 @@
+C:\Users\arwin\Desktop\dbNFL\bin\Debug\net6.0\dbNFL.exe
+C:\Users\arwin\Desktop\dbNFL\bin\Debug\net6.0\dbNFL.deps.json
+C:\Users\arwin\Desktop\dbNFL\bin\Debug\net6.0\dbNFL.runtimeconfig.json
+C:\Users\arwin\Desktop\dbNFL\bin\Debug\net6.0\dbNFL.dll
+C:\Users\arwin\Desktop\dbNFL\bin\Debug\net6.0\dbNFL.pdb
+C:\Users\arwin\Desktop\dbNFL\obj\Debug\net6.0\dbNFL.csproj.AssemblyReference.cache
+C:\Users\arwin\Desktop\dbNFL\obj\Debug\net6.0\dbNFL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\arwin\Desktop\dbNFL\obj\Debug\net6.0\dbNFL.AssemblyInfoInputs.cache
+C:\Users\arwin\Desktop\dbNFL\obj\Debug\net6.0\dbNFL.AssemblyInfo.cs
+C:\Users\arwin\Desktop\dbNFL\obj\Debug\net6.0\dbNFL.csproj.CoreCompileInputs.cache
+C:\Users\arwin\Desktop\dbNFL\obj\Debug\net6.0\dbNFL.dll
+C:\Users\arwin\Desktop\dbNFL\obj\Debug\net6.0\refint\dbNFL.dll
+C:\Users\arwin\Desktop\dbNFL\obj\Debug\net6.0\dbNFL.pdb
+C:\Users\arwin\Desktop\dbNFL\obj\Debug\net6.0\dbNFL.genruntimeconfig.cache
+C:\Users\arwin\Desktop\dbNFL\obj\Debug\net6.0\ref\dbNFL.dll
+C:\Users\arwin\Desktop\dbNFL\bin\Debug\net6.0\ConsoleTables.dll
+C:\Users\arwin\Desktop\dbNFL\obj\Debug\net6.0\dbNFL.csproj.CopyComplete
