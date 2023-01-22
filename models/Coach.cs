@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 namespace NFL.models
 {
     public class Coach
@@ -14,15 +15,30 @@ namespace NFL.models
 
         public Coach(string Id, int date, string fname, string lname, int sWin, int sLoss, int pWin, int pLoss, string teamName)
         {
-            coachId = Id;
-            season = date;
-            firstName = fname;
-            lastName = lname;
-            season_Win = sWin;
-            season_Loss = sLoss;
-            playoff_Win = pWin;
-            playoff_Loss = pLoss;
-            team = teamName;
+            string check = paramValidator(Id,date,fname,lname,sWin,sLoss,pWin,pLoss,teamName);
+            if(check == "OK")
+            {
+                coachId = Id;
+                season = date;
+                firstName = fname;
+                lastName = lname;
+                season_Win = sWin;
+                season_Loss = sLoss;
+                playoff_Win = pWin;
+                playoff_Loss = pLoss;
+                team = teamName;
+            }
+            else
+            {
+                Console.WriteLine("Invalid Entry: " + check);
+            }
+            
+        }
+
+        public string paramValidator(string Id, int date, string fname, string lname, int sWin, int sLoss, int pWin, int pLoss, string teamName)
+        {
+            // ID validation
+            return "OK";
         }
     }
 
