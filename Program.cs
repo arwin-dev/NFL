@@ -176,8 +176,24 @@ namespace NFL
 						}	
 						pr.teamSearch(Teams,Coaches,command[1], teamHeader);
 						break;
-					default:
+					case "--help":
+						Console.WriteLine("\nCommands:\n => add_team ID LOCATION NAME LEAGUE - add a new team");
+						Console.WriteLine(" => add_coach ID SEASON FIRST_NAME LAST_NAME SEASON_WIN SEASON_LOSS PLAYOFF_WIN PLAYOFF_LOSS TEAM - add new coach data"); 
+						Console.WriteLine(" => print_coaches - print a listing of all coaches");
+						Console.WriteLine(" => print_teams - print a listing of all teams");
+						Console.WriteLine(" => coaches_by_name NAME - list info of coaches with the specified name");
+						Console.WriteLine(" => teams_by_city CITY - list the teams in the specified city");
+						Console.WriteLine(" => load_coach FILENAME - bulk load of coach info from a file");
+						Console.WriteLine(" => load_team FILENAME - bulk load of team info from a file");
+						Console.WriteLine(" => best_coach SEASON - print the name of the coach with the most netwins in a specified season");
+						Console.WriteLine(" => search_coaches field=VALUE - print the name of the coach satisfying the specified conditions");
+						Console.WriteLine(" => exit - quit the program"); 
+						break;
+					case "exit":
 						check = false;
+						break;	
+					default:
+						Console.WriteLine("Invalid Command!! (Enter --help for list of commands)");
 						break;
 				}
             }
