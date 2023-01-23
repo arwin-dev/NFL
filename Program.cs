@@ -28,8 +28,9 @@ namespace NFL
 			Console.WriteLine();
 		}
 
-		public void coachSearch(List<Coach> Coaches,List<Coach> SearchCoach, string Name)
+		public void coachSearch(List<Coach> Coaches, List<Team> Teams,string Name, string[] colName)
 		{
+			List<Coach> SearchCoach = new List<Coach>();
 			foreach (Coach coach in Coaches)
 			{
 				if(coach.lastName.Equals(Name))
@@ -37,6 +38,20 @@ namespace NFL
 					SearchCoach.Add(coach);
 				}
 			}
+			if(SearchCoach.Count > 0)
+			{	
+				colName.Append("Location");
+				colName.Append("Name");
+				var Table = new ConsoleTable(colName);
+				foreach (var item in colName)
+				{
+					Console.WriteLine(item);
+				}
+				foreach (Coach coach in SearchCoach)
+				{
+					
+				}
+			}	
 		}
 
         public static void Main(string[] args)
@@ -92,12 +107,14 @@ namespace NFL
 						Coaches.Add(new Coach(command[1],int.Parse(command[2]),command[3],command[4],int.Parse(command[5]),int.Parse(command[6]),int.Parse(command[7]),int.Parse(command[8]),command[9]));
 						break;
 					case "coaches_by_name":
+						if(Coaches.Count == 0 || Teams.Count == 0)
+						{
+							Console.WriteLine("Please load tables before Search");
+							break;
+						}
 						string coachName = command[1].Replace("+"," ");
-						List<Coach> SearchCoach = new List<Coach>();
 
-						Console.WriteLine(coachName);
-						pr.coachSearch(Coaches,SearchCoach,coachName);
-						pr.printTable(coachHeader,SearchCoach);
+						pr.coachSearch(Coaches, Teams, coachName, coachHeader);
 						break;
 					default:
 						check = false;
