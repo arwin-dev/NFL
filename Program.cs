@@ -50,7 +50,7 @@ namespace NFL
 			string[] teamHeader = {"Team ID","Location","Name","League"};
 
             string coachFile = "./dataContext/";
-            string teamFile = "./dataContext/teams.txt";
+            string teamFile = "./dataContext/";
 
 
             while(check)
@@ -60,17 +60,33 @@ namespace NFL
                 string[] command = input.Split(' ');
 				switch (command[0])
 				{
-					case "load_coaches":
-						coachFile += command[1];
-						DataService.CoachDataParser(Coaches,coachFile);
+					case "load_coaches": case "load_teams":
+						string file = command[0].Equals("load_coaches") ? coachFile : teamFile;
+						file += command[1];
+						Console.WriteLine(file);
+						if(command[0].Equals("load_coaches"))
+						{
+							DataService.CoachDataParser(Coaches,file);
+						}
+						else
+						{
+							DataService.TeamDataParser(Teams,file);
+						}
 						break;
-					case "print_coaches":
-						if(Coaches.Count < 1)
+					case "print_coaches": case "print_teams":
+						if((command[0].Equals("print_coaches") && Coaches.Count == 0) || (command[0].Equals("print_teams") && Teams.Count == 0))
 						{
 							Console.WriteLine("Please load Database before printing!!!");
 							break;
 						}
-						pr.printTable(coachHeader,Coaches);
+						if(command[0].Equals("print_coaches"))
+						{
+							pr.printTable(coachHeader,Coaches);
+						}
+						else
+						{
+							pr.printTable(teamHeader,null,Teams);
+						}		
 						break;
 					case "add_coach":
 						Coaches.Add(new Coach(command[1],int.Parse(command[2]),command[3],command[4],int.Parse(command[5]),int.Parse(command[6]),int.Parse(command[7]),int.Parse(command[8]),command[9]));
