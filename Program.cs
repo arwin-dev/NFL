@@ -6,6 +6,28 @@ namespace NFL
 {
     class Program
     {
+		public void BestCoach(List<Coach> Coaches, int Season, string[]colName)
+		{
+			Coach bestCoach = new Coach("",0,"","",0,0,0,0,"");
+			int best = 0;
+			foreach (Coach coach in Coaches)
+			{
+				if(coach.season == Season)
+				{
+					int Wins = (coach.season_Win - coach.season_Loss) + (coach.playoff_Win - coach.playoff_Loss);
+					if (Wins > best)
+					{
+						best = Wins;
+						bestCoach = coach;
+					}
+				}
+			}
+			Console.WriteLine("The Best in " + Season + " is:");
+			var Table = new ConsoleTable(colName);
+			Table.AddRow(bestCoach.coachId,bestCoach.season,bestCoach.firstName,bestCoach.lastName,bestCoach.season_Win,bestCoach.season_Loss,bestCoach.playoff_Win,bestCoach.playoff_Loss,bestCoach.team);
+			Table.Write();
+			Console.WriteLine();
+		}
 		public void printTable(string[] colName,List<Coach> Coaches = null, List<Team> Teams = null)
 		{
 			var Table = new ConsoleTable(colName);
@@ -180,6 +202,9 @@ namespace NFL
 						}	
 						pr.teamSearch(Teams,Coaches,command[1], teamHeader);
 						break;
+					case "best_coach":
+						pr.BestCoach(Coaches,int.Parse(command[1]),coachHeader);
+						break;
 					case "--help":
 						Console.WriteLine("\nCommands:\n => add_team ID LOCATION NAME LEAGUE - add a new team");
 						Console.WriteLine(" => add_coach ID SEASON FIRST_NAME LAST_NAME SEASON_WIN SEASON_LOSS PLAYOFF_WIN PLAYOFF_LOSS TEAM - add new coach data"); 
@@ -189,7 +214,7 @@ namespace NFL
 						Console.WriteLine(" => teams_by_city CITY - list the teams in the specified city");
 						Console.WriteLine(" => load_coach FILENAME - bulk load of coach info from a file");
 						Console.WriteLine(" => load_team FILENAME - bulk load of team info from a file");
-						Console.WriteLine(" => best_coach SEASON - print the name of the coach with the most netwins in a specified season");
+						Console.WriteLine(" => best_coach SEASON - print the name of the coach with the most net wins in a specified season");
 						Console.WriteLine(" => search_coaches field=VALUE - print the name of the coach satisfying the specified conditions");
 						Console.WriteLine(" => exit - quit the program"); 
 						break;
