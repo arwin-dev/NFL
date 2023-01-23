@@ -158,6 +158,10 @@ namespace NFL
 						Coaches.Add(new Coach(command[1],int.Parse(command[2]),command[3],command[4],int.Parse(command[5]),int.Parse(command[6]),int.Parse(command[7]),int.Parse(command[8]),command[9]));
 						break;
 
+					case "add_team":
+						Teams.Add(new Team(command[1],command[2],command[3],char.Parse(command[4])));
+						break;
+
 					case "coaches_by_name":
 						if(Coaches.Count == 0 || Teams.Count == 0)
 						{
