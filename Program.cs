@@ -28,11 +28,20 @@ namespace NFL
 			Console.WriteLine();
 		}
 
+		public void coachSearch(List<Coach> Coaches,List<Coach> SearchCoach, string Name)
+		{
+			foreach (Coach coach in Coaches)
+			{
+				if(coach.lastName.Equals(Name))
+				{
+					SearchCoach.Add(coach);
+				}
+			}
+		}
+
         public static void Main(string[] args)
         {
 			bool check = true;
-			List<String> callStack = new List<string>();
-			callStack.Add("test");
 			Program pr = new Program();
             List<Coach> Coaches = new List<Coach>();
             List<Team> Teams = new List<Team>();
@@ -43,10 +52,6 @@ namespace NFL
             string coachFile = "./dataContext/";
             string teamFile = "./dataContext/teams.txt";
 
-            //DataService.CoachDataParser(Coaches,coachFile);
-            //DataService.TeamDataParser(Teams, teamFile);
-
-            //pr.printTable(coachHeader,Coaches);
 
             while(check)
             {
@@ -58,27 +63,31 @@ namespace NFL
 					case "load_coaches":
 						coachFile += command[1];
 						DataService.CoachDataParser(Coaches,coachFile);
-						callStack.Add(command[0]);
 						break;
 					case "print_coaches":
-						if(!callStack.Contains("load_coaches"))
+						if(Coaches.Count < 1)
 						{
 							Console.WriteLine("Please load Database before printing!!!");
 							break;
 						}
 						pr.printTable(coachHeader,Coaches);
-						callStack.Add(command[0]);
 						break;
 					case "add_coach":
 						Coaches.Add(new Coach(command[1],int.Parse(command[2]),command[3],command[4],int.Parse(command[5]),int.Parse(command[6]),int.Parse(command[7]),int.Parse(command[8]),command[9]));
+						break;
+					case "coaches_by_name":
+						string coachName = command[1].Replace("+"," ");
+						List<Coach> SearchCoach = new List<Coach>();
+
+						Console.WriteLine(coachName);
+						pr.coachSearch(Coaches,SearchCoach,coachName);
+						pr.printTable(coachHeader,SearchCoach);
 						break;
 					default:
 						check = false;
 						break;
 				}
-
             }
-			
         }
     }
 }
