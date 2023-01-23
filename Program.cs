@@ -40,18 +40,67 @@ namespace NFL
 			}
 			if(SearchCoach.Count > 0)
 			{	
-				colName.Append("Location");
-				colName.Append("Name");
-				var Table = new ConsoleTable(colName);
-				foreach (var item in colName)
+				string[] header = new string[colName.Length + 2];
+				for(int i = 0; i < header.Length - 2; i++)
 				{
-					Console.WriteLine(item);
+					header[i] = colName[i];
 				}
+				header[colName.Length] = "Location";
+				header[colName.Length + 1] = "Name";
+
+				var Table = new ConsoleTable(header);
+
 				foreach (Coach coach in SearchCoach)
 				{
-					
+					foreach (Team team in Teams)
+					{
+						if(coach.team == team.teamId)
+						{
+							Table.AddRow(coach.coachId,coach.season,coach.firstName,coach.lastName,coach.season_Win,coach.season_Loss,coach.playoff_Win,coach.playoff_Loss,coach.team,team.location,team.name);
+						}
+					}
 				}
+
+				Table.Write();
+				Console.WriteLine();
 			}	
+		}
+
+		public void teamSearch(List<Team> Teams, List<Coach> Coaches,string Location, string[] colName)
+		{
+			List<Team> SearchTeam = new List<Team>();
+			foreach (Team team in Teams)
+			{
+				if(team.location.Equals(Location))
+				{
+					SearchTeam.Add(team);
+				}
+			}
+			if(SearchTeam.Count > 0)
+			{
+				string[] header = new string[colName.Length + 1];
+				for(int i = 0; i < header.Length - 1; i++)
+				{
+					header[i] = colName[i];
+				}
+				header[colName.Length] = "Name";
+				
+				var Table = new ConsoleTable(header);
+
+				foreach (Team team in SearchTeam)
+				{
+					foreach (Coach coach in Coaches)
+					{
+						if(team.teamId == coach.team)
+						{
+							Table.AddRow(team.teamId,team.location,team.name,team.league,coach.lastName);
+						}
+					}
+				}
+
+				Table.Write();
+				Console.WriteLine();
+			}
 		}
 
         public static void Main(string[] args)
@@ -88,6 +137,7 @@ namespace NFL
 							DataService.TeamDataParser(Teams,file);
 						}
 						break;
+
 					case "print_coaches": case "print_teams":
 						if((command[0].Equals("print_coaches") && Coaches.Count == 0) || (command[0].Equals("print_teams") && Teams.Count == 0))
 						{
@@ -103,9 +153,11 @@ namespace NFL
 							pr.printTable(teamHeader,null,Teams);
 						}		
 						break;
+
 					case "add_coach":
 						Coaches.Add(new Coach(command[1],int.Parse(command[2]),command[3],command[4],int.Parse(command[5]),int.Parse(command[6]),int.Parse(command[7]),int.Parse(command[8]),command[9]));
 						break;
+
 					case "coaches_by_name":
 						if(Coaches.Count == 0 || Teams.Count == 0)
 						{
@@ -115,6 +167,14 @@ namespace NFL
 						string coachName = command[1].Replace("+"," ");
 
 						pr.coachSearch(Coaches, Teams, coachName, coachHeader);
+						break;
+					case "teams_by_city":
+						if(Coaches.Count == 0 || Teams.Count == 0)
+						{
+							Console.WriteLine("Please load tables before Search");
+							break;
+						}	
+						pr.teamSearch(Teams,Coaches,command[1], teamHeader);
 						break;
 					default:
 						check = false;
