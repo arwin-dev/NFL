@@ -32,9 +32,19 @@ namespace NFL.models
             {
                 Console.WriteLine("Invalid Entry: " + check);
             }
-            
         }
-
+        public Coach()
+        {
+            coachId = string.Empty;
+            season = 0;
+            firstName = string.Empty;
+            lastName = string.Empty;
+            season_Win = 0;
+            season_Loss = 0;
+            playoff_Win = 0;
+            playoff_Loss = 0;
+            team = string.Empty;
+        }
         public string paramValidator(string Id, int date, string fname, string lname, int sWin, int sLoss, int pWin, int pLoss, string teamName)
         {
             // ID validation
