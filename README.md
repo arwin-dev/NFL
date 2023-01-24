@@ -1,9 +1,15 @@
 # NFL Database - Build on .NET using C#
 
 ## Requirements
-- .NET 6.0
+- .NET 6.0   -   [Install](https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net70)
 
-## Installing 
+## Install
+
+Install .NET
+
+```shell
+https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net60
+```
 
 Clone repository
 
