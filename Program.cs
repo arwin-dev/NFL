@@ -124,7 +124,55 @@ namespace NFL
 				Console.WriteLine();
 			}
 		}
+		public int searchCoaches(List<Coach> Coaches,Coach coach, List<string> Param, List<string> ParamData)
+		{
+			if(Param.Count == 0 || ParamData.Count == 0)
+			{
+				Console.WriteLine("Empty Parameters");
+				return 0;
+			}
 
+			foreach (Coach itr in Coaches)
+			{
+				
+				// int stat = 0;
+				// for(int i = 0;i < Param.Count; i++)
+				// {
+				// 	switch (Param[i])
+				// 	{
+				// 		case "coachid":
+							
+				// 			break;
+				// 		case "year":
+							
+				// 			break;
+				// 		case "firstname":
+							
+				// 			break;
+				// 		case "lastname":
+							
+				// 			break;
+				// 		case "season_win":
+							
+				// 			break;
+				// 		case "season_loss":
+							
+				// 			break;
+				// 		case "playoff_win":
+							
+				// 			break;
+				// 		case "playoff_loss":
+							
+				// 			break;
+				// 		case "team":
+							
+				// 			break;
+				// 	}
+				// }
+
+			}
+			
+		}
         public static void Main(string[] args)
         {
 			bool check = true;
@@ -208,43 +256,20 @@ namespace NFL
 						break;
 					case "search_coaches":
 						Coach coach = new Coach();
+						List<string> param = new List<string>();
+						List<string> ParamData = new List<string>();
+						if(Coaches.Count == 0 || Teams.Count == 0)
+						{
+							Console.WriteLine("Please load tables before Search");
+							break;
+						}
 						for(int i = 1; i < command.Length; i++)
 						{
 							string[] data = command[i].Split("=");
-							switch (data[0])
-							{
-								case "coachid":
-									coach.coachId = data[1];
-									break;
-								case "year":
-									coach.season = int.Parse(data[1]);
-									break;
-								case "firstname":
-									coach.firstName = data[1];
-									break;
-								case "lastname":
-									coach.lastName = data[1];
-									break;
-								case "season_win":
-									coach.season_Win = int.Parse(data[1]);
-									break;
-								case "season_loss":
-									coach.season_Loss = int.Parse(data[1]);
-									break;
-								case "playoff_win":
-									coach.playoff_Win = int.Parse(data[1]);
-									break;
-								case "playoff_loss":
-									coach.playoff_Loss = int.Parse(data[1]);
-									break;
-								case "team":
-									coach.team = data[1];
-									break;
-							}
+							param.Add(data[0]);
+							ParamData.Add(data[1]);
 						}
-
-						
-
+						int status = pr.searchCoaches(Coaches,coach,param,ParamData);
 						break;
 					case "--help":
 						Console.WriteLine("\nCommands:\n => add_team ID LOCATION NAME LEAGUE - add a new team");
