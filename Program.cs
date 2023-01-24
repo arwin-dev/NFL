@@ -205,7 +205,7 @@ namespace NFL
             string coachFile = "./dataContext/";
             string teamFile = "./dataContext/";
 
-
+			Console.Write("Welcome to the NFL Database (Enter --help to see list of commands)\n");
             while(check)
             {
 				try
@@ -315,7 +315,7 @@ namespace NFL
 				}
 				catch(Exception ex)
 				{
-					Console.WriteLine(ex.Message);
+					Console.WriteLine("\n"+ ex.Message +"\n");
 				}
             }
         }
