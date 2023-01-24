@@ -28,7 +28,7 @@ namespace NFL
 			Table.Write();
 			Console.WriteLine();
 		}
-		public void printTable(string[] colName,List<Coach> Coaches = null, List<Team> Teams = null)
+		public void printTable(string[] colName,List<Coach> ?Coaches = null, List<Team> ?Teams = null)
 		{
 			var Table = new ConsoleTable(colName);
 			if(Coaches != null)
@@ -124,53 +124,72 @@ namespace NFL
 				Console.WriteLine();
 			}
 		}
-		public int searchCoaches(List<Coach> Coaches,Coach coach, List<string> Param, List<string> ParamData)
+		public void searchCoaches(List<Coach> Coaches,Coach coach, List<string> Param, List<string> ParamData, string[] header)
 		{
 			if(Param.Count == 0 || ParamData.Count == 0)
 			{
 				Console.WriteLine("Empty Parameters");
-				return 0;
+				return;
 			}
-
+			var Table = new ConsoleTable(header);
 			foreach (Coach itr in Coaches)
 			{
-				
-				// int stat = 0;
-				// for(int i = 0;i < Param.Count; i++)
-				// {
-				// 	switch (Param[i])
-				// 	{
-				// 		case "coachid":
-							
-				// 			break;
-				// 		case "year":
-							
-				// 			break;
-				// 		case "firstname":
-							
-				// 			break;
-				// 		case "lastname":
-							
-				// 			break;
-				// 		case "season_win":
-							
-				// 			break;
-				// 		case "season_loss":
-							
-				// 			break;
-				// 		case "playoff_win":
-							
-				// 			break;
-				// 		case "playoff_loss":
-							
-				// 			break;
-				// 		case "team":
-							
-				// 			break;
-				// 	}
-				// }
-
+				bool flag = true;
+				for(int i =0 ;i < Param.Count;i++)
+				{
+					if(Param[i].Equals("coachid") && !(ParamData[i].Trim().Equals(itr.coachId.Trim())))
+					{
+						flag = false;
+						break;
+					}
+					if(Param[i].Equals("year") && (int.Parse(ParamData[i]) != itr.season))
+					{
+						flag = false;
+						break;
+					}
+					if(Param[i].Equals("firstname") && !(ParamData[i].Trim().Equals(itr.firstName.Trim())))
+					{
+						flag = false;
+						break;
+					}
+					if(Param[i].Equals("lastname") && !(ParamData[i].Trim().Equals(itr.lastName.Trim())))
+					{
+						flag = false;
+						break;
+					}
+					if(Param[i].Equals("season_win") && (int.Parse(ParamData[i]) != itr.season_Win))
+					{
+						flag = false;
+						break;
+					}
+					if(Param[i].Equals("season_loss") && (int.Parse(ParamData[i]) != itr.season_Loss))
+					{
+						flag = false;
+						break;
+					}
+					if(Param[i].Equals("playoff_win") && (int.Parse(ParamData[i]) != itr.playoff_Win))
+					{
+						flag = false;
+						break;
+					}
+					if(Param[i].Equals("playoff_loss") && (int.Parse(ParamData[i]) != itr.playoff_Loss))
+					{
+						flag = false;
+						break;
+					}
+					if(Param[i].Equals("team") && !(ParamData[i].Trim().Equals(itr.team.Trim())))
+					{
+						flag = false;
+						break;
+					}
+				}
+				if(flag == true)
+				{
+					Table.AddRow(itr.coachId,itr.season,itr.firstName,itr.lastName,itr.season_Win,itr.season_Loss,itr.playoff_Win,itr.playoff_Loss,itr.team);
+				}	
 			}
+			Table.Write();
+			Console.WriteLine();
 			
 		}
         public static void Main(string[] args)
@@ -189,107 +208,114 @@ namespace NFL
 
             while(check)
             {
-                Console.Write("Enter Command: ");
-                string input = Console.ReadLine();
-                string[] command = input.Split(' ');
-				switch (command[0])
+				try
 				{
-					case "load_coaches": case "load_teams":
-						string file = command[0].Equals("load_coaches") ? coachFile : teamFile;
-						file += command[1];
-						Console.WriteLine(file);
-						if(command[0].Equals("load_coaches"))
-						{
-							DataService.CoachDataParser(Coaches,file);
-						}
-						else
-						{
-							DataService.TeamDataParser(Teams,file);
-						}
-						break;
-
-					case "print_coaches": case "print_teams":
-						if((command[0].Equals("print_coaches") && Coaches.Count == 0) || (command[0].Equals("print_teams") && Teams.Count == 0))
-						{
-							Console.WriteLine("Please load Database before printing!!!");
+					Console.Write("Enter Command: ");
+					string input = Console.ReadLine();
+					Console.Write("\n");
+					string[] command = input.Split(' ');
+					switch (command[0])
+					{
+						case "load_coaches": case "load_teams":
+							string file = command[0].Equals("load_coaches") ? coachFile : teamFile;
+							file += command[1];
+							if(command[0].Equals("load_coaches"))
+							{
+								DataService.CoachDataParser(Coaches,file);
+							}
+							else
+							{
+								DataService.TeamDataParser(Teams,file);
+							}
 							break;
-						}
-						if(command[0].Equals("print_coaches"))
-						{
-							pr.printTable(coachHeader,Coaches);
-						}
-						else
-						{
-							pr.printTable(teamHeader,null,Teams);
-						}		
-						break;
 
-					case "add_coach":
-						Coaches.Add(new Coach(command[1],int.Parse(command[2]),command[3],command[4],int.Parse(command[5]),int.Parse(command[6]),int.Parse(command[7]),int.Parse(command[8]),command[9]));
-						break;
-
-					case "add_team":
-						Teams.Add(new Team(command[1],command[2],command[3],char.Parse(command[4])));
-						break;
-
-					case "coaches_by_name":
-						Coach Newcoach = new Coach();
-						if(Coaches.Count == 0 || Teams.Count == 0)
-						{
-							Console.WriteLine("Please load tables before Search");
+						case "print_coaches": case "print_teams":
+							if((command[0].Equals("print_coaches") && Coaches.Count == 0) || (command[0].Equals("print_teams") && Teams.Count == 0))
+							{
+								Console.WriteLine("Please load Database before printing!!!");
+								break;
+							}
+							if(command[0].Equals("print_coaches"))
+							{
+								pr.printTable(coachHeader,Coaches);
+							}
+							else
+							{
+								pr.printTable(teamHeader,null,Teams);
+							}		
 							break;
-						}
-						Newcoach.lastName = command[1].Replace("+"," ");
 
-						pr.coachSearch(Coaches, Teams, Newcoach, coachHeader);
-						break;
-					case "teams_by_city":
-						if(Coaches.Count == 0 || Teams.Count == 0)
-						{
-							Console.WriteLine("Please load tables before Search");
+						case "add_coach":
+							Coaches.Add(new Coach(command[1],int.Parse(command[2]),command[3],command[4],int.Parse(command[5]),int.Parse(command[6]),int.Parse(command[7]),int.Parse(command[8]),command[9]));
 							break;
-						}	
-						pr.teamSearch(Teams,Coaches,command[1], teamHeader);
-						break;
-					case "best_coach":
-						pr.BestCoach(Coaches,int.Parse(command[1]),coachHeader);
-						break;
-					case "search_coaches":
-						Coach coach = new Coach();
-						List<string> param = new List<string>();
-						List<string> ParamData = new List<string>();
-						if(Coaches.Count == 0 || Teams.Count == 0)
-						{
-							Console.WriteLine("Please load tables before Search");
+
+						case "add_team":
+							Teams.Add(new Team(command[1],command[2],command[3],char.Parse(command[4])));
 							break;
-						}
-						for(int i = 1; i < command.Length; i++)
-						{
-							string[] data = command[i].Split("=");
-							param.Add(data[0]);
-							ParamData.Add(data[1]);
-						}
-						int status = pr.searchCoaches(Coaches,coach,param,ParamData);
-						break;
-					case "--help":
-						Console.WriteLine("\nCommands:\n => add_team ID LOCATION NAME LEAGUE - add a new team");
-						Console.WriteLine(" => add_coach ID SEASON FIRST_NAME LAST_NAME SEASON_WIN SEASON_LOSS PLAYOFF_WIN PLAYOFF_LOSS TEAM - add new coach data"); 
-						Console.WriteLine(" => print_coaches - print a listing of all coaches");
-						Console.WriteLine(" => print_teams - print a listing of all teams");
-						Console.WriteLine(" => coaches_by_name NAME - list info of coaches with the specified name");
-						Console.WriteLine(" => teams_by_city CITY - list the teams in the specified city");
-						Console.WriteLine(" => load_coach FILENAME - bulk load of coach info from a file");
-						Console.WriteLine(" => load_team FILENAME - bulk load of team info from a file");
-						Console.WriteLine(" => best_coach SEASON - print the name of the coach with the most net wins in a specified season");
-						Console.WriteLine(" => search_coaches field=VALUE - print the name of the coach satisfying the specified conditions");
-						Console.WriteLine(" => exit - quit the program"); 
-						break;
-					case "exit":
-						check = false;
-						break;	
-					default:
-						Console.WriteLine("Invalid Command!! (Enter --help for list of commands)");
-						break;
+
+						case "coaches_by_name":
+							Coach Newcoach = new Coach();
+							if(Coaches.Count == 0 || Teams.Count == 0)
+							{
+								Console.WriteLine("Please load tables before Search");
+								break;
+							}
+							Newcoach.lastName = command[1].Replace("+"," ");
+
+							pr.coachSearch(Coaches, Teams, Newcoach, coachHeader);
+							break;
+						case "teams_by_city":
+							if(Coaches.Count == 0 || Teams.Count == 0)
+							{
+								Console.WriteLine("Please load tables before Search");
+								break;
+							}	
+							pr.teamSearch(Teams,Coaches,command[1], teamHeader);
+							break;
+						case "best_coach":
+							pr.BestCoach(Coaches,int.Parse(command[1]),coachHeader);
+							break;
+						case "search_coaches":
+							Coach coach = new Coach();
+							List<string> param = new List<string>();
+							List<string> ParamData = new List<string>();
+							if(Coaches.Count == 0 || Teams.Count == 0)
+							{
+								Console.WriteLine("Please load tables before Search");
+								break;
+							}
+							for(int i = 1; i < command.Length; i++)
+							{
+								string[] data = command[i].Split("=");
+								param.Add(data[0]);
+								ParamData.Add(data[1]);
+							}
+							pr.searchCoaches(Coaches,coach,param,ParamData,coachHeader);
+							break;
+						case "--help":
+							Console.WriteLine("\nCommands:\n => add_team ID LOCATION NAME LEAGUE - add a new team");
+							Console.WriteLine(" => add_coach ID SEASON FIRST_NAME LAST_NAME SEASON_WIN SEASON_LOSS PLAYOFF_WIN PLAYOFF_LOSS TEAM - add new coach data"); 
+							Console.WriteLine(" => print_coaches - print a listing of all coaches");
+							Console.WriteLine(" => print_teams - print a listing of all teams");
+							Console.WriteLine(" => coaches_by_name NAME - list info of coaches with the specified name");
+							Console.WriteLine(" => teams_by_city CITY - list the teams in the specified city");
+							Console.WriteLine(" => load_coach FILENAME - bulk load of coach info from a file");
+							Console.WriteLine(" => load_team FILENAME - bulk load of team info from a file");
+							Console.WriteLine(" => best_coach SEASON - print the name of the coach with the most net wins in a specified season");
+							Console.WriteLine(" => search_coaches field=VALUE - print the name of the coach satisfying the specified conditions");
+							Console.WriteLine(" => exit - quit the program"); 
+							break;
+						case "exit":
+							check = false;
+							break;	
+						default:
+							Console.WriteLine("Invalid Command!! (Enter --help for list of commands)");
+							break;
+					}
+				}
+				catch(Exception ex)
+				{
+					Console.WriteLine(ex.Message);
 				}
             }
         }
